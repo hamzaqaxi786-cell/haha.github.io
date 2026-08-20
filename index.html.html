@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 💙</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root{
+    --deep: #1e4d78;
+    --mid: #3a76ac;
+    --accent: #5b9bd5;
+    --pale: #e4f0fb;
+    --paper: #fbfdff;
+    --line: #cfe2f5;
+    --ink: #1c3a52;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    font-family:'Inter', sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, #eef6fc 0%, #dfeefa 100%);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  .browser-frame{
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--paper);
+    position:relative;
+    box-shadow: 0 0 80px rgba(30,77,120,0.12);
+  }
+
+  .screen{
+    display:none;
+    min-height: 100vh;
+    padding: 56px 30px 40px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.6s ease;
+  }
+  .screen.active{ display:flex; flex-direction:column; }
+  @keyframes fadeIn{ from{opacity:0; transform: translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .back-btn{
+    position:absolute;
+    top: 20px; left: 24px;
+    background:none;
+    border:none;
+    color: var(--mid);
+    font-size: 13px;
+    cursor:pointer;
+    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap: 4px;
+    z-index: 5;
+  }
+
+  /* decorative dots */
+  .deco-dot{
+    position:absolute;
+    border-radius:50%;
+    background: var(--accent);
+    opacity:0.15;
+  }
+
+  /* ---------- COVER ---------- */
+  #cover{ align-items:center; justify-content:center; text-align:center; }
+  #cover .eyebrow{
+    letter-spacing: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--mid);
+    font-weight:600;
+    margin-bottom: 22px;
+  }
+  #cover h1{
+    font-family:'Cormorant Garamond', serif;
+    font-size: 46px;
+    font-weight:500;
+    color: var(--deep);
+    line-height:1.1;
+  }
+  #cover h1 em{
+    display:block;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 52px;
+    margin-top: 4px;
+  }
+  #cover p.sub{
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--mid);
+    max-width: 280px;
+  }
+
+  .cake-wrap{
+    margin: 40px auto 30px;
+    position:relative;
+    width: 160px;
+  }
+  .flame{
+    width: 6px; height: 14px;
+    background: radial-gradient(circle, #ffd873, #ff9d3d);
+    border-radius: 50% 50% 50% 50%/60% 60% 40% 40%;
+    margin: 0 auto 2px;
+    animation: flicker 1.4s ease-in-out infinite;
+    transition: opacity 0.3s;
+    cursor:pointer;
+  }
+  .flame.out{ opacity:0; }
+  @keyframes flicker{ 0%,100%{transform:scaleY(1) rotate(-1deg);} 50%{transform:scaleY(0.9) rotate(2deg);} }
+  .candles{ display:flex; justify-content:center; gap: 22px; margin-bottom: -4px; }
+  .candle{ width: 4px; height: 26px; background: var(--accent); border-radius: 2px; margin: 0 auto; }
+  .cake-body{
+    background: linear-gradient(180deg, var(--pale), #ffffff);
+    border: 1.5px solid var(--line);
+    border-radius: 10px 10px 4px 4px;
+    height: 60px;
+    position:relative;
+  }
+  .cake-body::after{
+    content:"";
+    position:absolute; top:-8px; left:0; right:0; height:16px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 40% 40% 0 0 / 100% 100% 0 0;
+  }
+  .cake-tier2{
+    background: var(--pale);
+    border: 1.5px solid var(--line);
+    height: 34px;
+    width: 82%;
+    margin: 0 auto;
+    border-radius: 4px 4px 0 0;
+  }
+  .candle-hint{
+    font-size: 11px;
+    color: var(--mid);
+    opacity:0.7;
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .primary-btn{
+    margin-top: 30px;
+    background: var(--deep);
+    color: white;
+    border:none;
+    padding: 14px 30px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight:500;
+    cursor:pointer;
+    letter-spacing: 0.3px;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .primary-btn:hover{ background: var(--mid); transform: translateY(-2px); }
+  .primary-btn:focus-visible{ outline: 2px solid var(--accent); outline-offset:3px; }
+
+  .tap-hint{
+    margin-top: 40px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mid);
+    opacity:0.5;
+  }
+
+  /* ---------- GIFTS ---------- */
+  #gifts h2, #memories h2, #notes h2, #letter h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: var(--deep);
+    text-align:center;
+    margin-top: 10px;
+  }
+  #gifts .hint, #memories .hint, #notes .hint{
+    text-align:center;
+    font-size: 12.5px;
+    color: var(--mid);
+    margin: 8px 0 30px;
+  }
+
+  .gift-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    flex:1;
+  }
+  .gift-box{
+    background: var(--pale);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    min-height: 110px;
+    font-size: 30px;
+    position:relative;
+    transition: transform 0.25s ease, background 0.25s ease;
+  }
+  .gift-box:hover{ transform: translateY(-3px); }
+  .gift-box.opened{
+    background: var(--paper);
+    border-color: var(--accent);
+  }
+  .gift-note{
+    font-family:'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--deep);
+    padding: 14px;
+    text-align:center;
+    line-height:1.4;
+  }
+  .gift-box:first-child{ grid-column: span 2; min-height:90px; }
+
+  /* ---------- MEMORIES ---------- */
+  .polaroid-wrap{
+    flex:1;
+    position:relative;
+    min-height: 380px;
+  }
+  .polaroid{
+    position:absolute;
+    background: white;
+    border: 1px solid var(--line);
+    padding: 8px 8px 26px;
+    box-shadow: 0 10px 24px rgba(30,77,120,0.12);
+    width: 130px;
+    border-radius: 3px;
+  }
+  .polaroid .ph{
+    width:100%;
+    aspect-ratio: 1/1.1;
+    background: var(--pale);
+    border: 1px dashed var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 10px;
+    color: var(--mid);
+    text-align:center;
+    border-radius: 2px;
+    overflow:hidden;
+  }
+  .polaroid .ph img{ width:100%; height:100%; object-fit:cover; }
+  .polaroid .cap{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size: 12px;
+    text-align:center;
+    margin-top: 8px;
+    color: var(--deep);
+  }
+  .p1{ top: 0; left: 4%; transform: rotate(-7deg); }
+  .p2{ top: 26px; right: 2%; transform: rotate(5deg); }
+  .p3{ top: 200px; left: 12%; transform: rotate(4deg); z-index:2; }
+  .p4{ top: 220px; right: 6%; transform: rotate(-6deg); }
+
+  /* ---------- LOVE NOTES ---------- */
+  .notes-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    flex:1;
+  }
+  .note-card{
+    background: var(--pale);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    min-height: 90px;
+    padding: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    cursor:pointer;
+    position:relative;
+  }
+  .note-card .front{
+    font-size: 11px;
+    color: var(--mid);
+    letter-spacing: 0.5px;
+  }
+  .note-card .back{
+    display:none;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size: 13.5px;
+    color: var(--deep);
+    line-height: 1.4;
+  }
+  .note-card.flipped{ background: var(--paper); border-color: var(--accent); }
+  .note-card.flipped .front{ display:none; }
+  .note-card.flipped .back{ display:block; }
+
+  .counter{
+    text-align:center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--mid);
+    letter-spacing: 0.5px;
+  }
+
+  /* ---------- LETTER ---------- */
+  #letter{ align-items:center; }
+  .letter-eyebrow{
+    text-align:center;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-top: 6px;
+  }
+  .letter-paper{
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px 24px;
+    margin-top: 20px;
+    box-shadow: 0 12px 30px rgba(30,77,120,0.1);
+  }
+  .letter-paper p{
+    font-family:'Cormorant Garamond', serif;
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .letter-sign{
+    font-style: italic;
+    color: var(--accent);
+    text-align:right;
+    margin-top: 10px;
+  }
+
+  /* ---------- FINAL ---------- */
+  #final{ align-items:center; justify-content:center; text-align:center; }
+  #final .big-heart{
+    font-size: 46px;
+    margin-bottom: 20px;
+    animation: beat 1.6s ease-in-out infinite;
+  }
+  @keyframes beat{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.12);} }
+  #final h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size: 30px;
+    color: var(--deep);
+  }
+  #final p{
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--mid);
+    max-width: 260px;
+  }
+
+  .heart-mark{ width:36px; height:36px; margin: 0 auto; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="browser-frame">
+
+  <!-- COVER -->
+  <section class="screen active" id="cover">
+    <div class="eyebrow">a little surprise</div>
+    <svg class="heart-mark" viewBox="0 0 24 24" fill="none" stroke="#5b9bd5" stroke-width="1.3">
+      <path d="M12 21s-7.5-4.6-10-9.1C0.3 8.4 2 4.5 6 4.1c2-.2 3.6.9 6 3.4 2.4-2.5 4-3.6 6-3.4 4 .4 5.7 4.3 4 7.8C19.5 16.4 12 21 12 21z"/>
+    </svg>
+    <h1>Happy Birthday<em>Jaan</em></h1>
+    <p class="sub">Today is wrapped just for you — blow out the candles and open what's next.</p>
+
+    <div class="cake-wrap">
+      <div class="candles">
+        <div class="flame" onclick="this.classList.toggle('out')"></div>
+        <div class="flame" onclick="this.classList.toggle('out')"></div>
+        <div class="flame" onclick="this.classList.toggle('out')"></div>
+      </div>
+      <div style="display:flex; justify-content:center; gap:22px; margin-bottom:0;">
+        <div class="candle"></div><div class="candle"></div><div class="candle"></div>
+      </div>
+      <div class="cake-tier2"></div>
+      <div class="cake-body"></div>
+      <div class="candle-hint">tap the flames to blow out the candles</div>
+    </div>
+
+    <button class="primary-btn" onclick="go('gifts')">Open your gifts</button>
+    <div class="tap-hint">a little journey awaits ✦</div>
+  </section>
+
+  <!-- GIFTS -->
+  <section class="screen" id="gifts">
+    <button class="back-btn" onclick="go('cover')">‹ Back</button>
+    <h2>For You</h2>
+    <p class="hint">Tap each gift to see what's inside</p>
+    <div class="gift-grid" id="giftGrid">
+      <div class="gift-box" data-msg="Something special is coming your way today 💙">🎁 Open me</div>
+      <div class="gift-box" data-msg="A reminder: you make everything better, just by being you.">🎀</div>
+      <div class="gift-box" data-msg="This year, all your quiet wishes — I hope they come true.">💌</div>
+    </div>
+    <button class="primary-btn" style="align-self:center;" onclick="go('memories')">Continue</button>
+  </section>
+
+  <!-- MEMORIES -->
+  <section class="screen" id="memories">
+    <button class="back-btn" onclick="go('gifts')">‹ Back</button>
+    <h2>Our Favourites</h2>
+    <p class="hint">A few moments worth keeping</p>
+    <div class="polaroid-wrap">
+      <div class="polaroid p1"><div class="ph">photo</div><div class="cap">that afternoon</div></div>
+      <div class="polaroid p2"><div class="ph">photo</div><div class="cap">golden hour</div></div>
+      <div class="polaroid p3"><div class="ph">photo</div><div class="cap">just us</div></div>
+      <div class="polaroid p4"><div class="ph">photo</div><div class="cap">this smile</div></div>
+    </div>
+    <button class="primary-btn" style="align-self:center;" onclick="go('notes')">Continue the story →</button>
+  </section>
+
+  <!-- LOVE NOTES -->
+  <section class="screen" id="notes">
+    <button class="back-btn" onclick="go('memories')">‹ Back</button>
+    <h2>Things I Love About You</h2>
+    <p class="hint">Tap the notes to reveal what's inside</p>
+    <div class="notes-grid" id="notesGrid">
+      <div class="note-card" data-text="your courage" data-back="You face hard things with a soft kind of bravery.">
+        <span class="front">your courage</span><span class="back"></span>
+      </div>
+      <div class="note-card" data-text="your kindness" data-back="You make people feel safe just by being near them.">
+        <span class="front">your kindness</span><span class="back"></span>
+      </div>
+      <div class="note-card" data-text="your laugh" data-back="It's the sound that fixes my whole day.">
+        <span class="front">your laugh</span><span class="back"></span>
+      </div>
+      <div class="note-card" data-text="just because" data-back="Some things don't need a reason. You're one of them.">
+        <span class="front">just because</span><span class="back"></span>
+      </div>
+    </div>
+    <div class="counter" id="noteCounter">0 / 4 little notes discovered</div>
+    <button class="primary-btn" style="align-self:center; margin-top:20px;" onclick="go('letter')">Read the letter</button>
+  </section>
+
+  <!-- LETTER -->
+  <section class="screen" id="letter">
+    <button class="back-btn" onclick="go('notes')">‹ Back</button>
+    <div class="letter-eyebrow">for your eyes only</div>
+    <h2>Dear Jaan</h2>
+    <div class="letter-paper">
+      <p>From the quietest corner of my heart — thank you for the way you soften the world. For your laugh that finds me even on heavy days. For loving with a kind of courage that makes everything feel safer.</p>
+      <p>I hope this year brings you soft mornings, bright surprises, and a hundred ordinary moments that somehow feel magical — because that is what you give to me.</p>
+      <div class="letter-sign">Always yours 💙</div>
+    </div>
+    <button class="primary-btn" onclick="go('final')">One last surprise →</button>
+  </section>
+
+  <!-- FINAL -->
+  <section class="screen" id="final">
+    <div class="big-heart">💙</div>
+    <h2>Happy Birthday, my love.</h2>
+    <p>Here's to another year of us. I love you more than this little page can hold.</p>
+  </section>
+
+</div>
+
+<script>
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  document.querySelectorAll('.gift-box').forEach(box => {
+    box.addEventListener('click', () => {
+      if(box.classList.contains('opened')) return;
+      box.classList.add('opened');
+      box.innerHTML = '<div class="gift-note">' + box.dataset.msg + '</div>';
+    });
+  });
+
+  let discovered = 0;
+  const total = document.querySelectorAll('.note-card').length;
+  document.querySelectorAll('.note-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if(card.classList.contains('flipped')) return;
+      card.classList.add('flipped');
+      card.querySelector('.back').textContent = card.dataset.back;
+      discovered++;
+      document.getElementById('noteCounter').textContent = discovered + ' / ' + total + ' little notes discovered';
+    });
+  });
+</script>
+
+</body>
+</html>
